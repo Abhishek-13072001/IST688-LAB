@@ -15,16 +15,22 @@ openai_api_key = st.text_input("OpenAI API Key", type="password")
 if not openai_api_key:
     st.info("Please add your OpenAI API key to continue.", icon="🗝️")
 else:
-
-    # Create an OpenAI client.
+    # Create an OpenAI client
     client = OpenAI(api_key=openai_api_key)
 
-    # Let the user upload a file via `st.file_uploader`.
+    # Validate the API key immediately
+    try:
+        client.models.list()
+    except Exception as e:
+        st.error("Invalid OpenAI API Key. Please check your key and try again.")
+        st.stop()
+
+    # Let the user upload a file via `st.file_uploader`
     uploaded_file = st.file_uploader(
         "Upload a document (.txt or .md)", type=("txt", "md")
     )
 
-    # Ask the user for a question via `st.text_area`.
+    # Ask the user for a question via `st.text_area`
     question = st.text_area(
         "Now ask a question about the document!",
         placeholder="Can you give me a short summary?",
@@ -32,8 +38,7 @@ else:
     )
 
     if uploaded_file and question:
-
-        # Process the uploaded file and question.
+        # Process the uploaded file and question
         document = uploaded_file.read().decode()
         messages = [
             {
@@ -42,12 +47,12 @@ else:
             }
         ]
 
-        # Generate an answer using the OpenAI API.
+        # Generate an answer using the OpenAI API
         stream = client.chat.completions.create(
             model="gpt-4.1",
             messages=messages,
             stream=True,
         )
 
-        # Stream the response to the app using `st.write_stream`.
+        # Stream the response to the app using `st.write_stream`
         st.write_stream(stream)
