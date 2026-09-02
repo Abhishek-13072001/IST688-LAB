@@ -28,7 +28,7 @@ st.write("Upload a PDF file to generate a customized summary.")
 # Sidebar Controls
 st.sidebar.header("Summarizer Options")
 
-# Summary format selection
+# 1. Summary Format Selection Dropdown
 summary_type = st.sidebar.selectbox(
     "Choose Summary Type:",
     (
@@ -38,9 +38,24 @@ summary_type = st.sidebar.selectbox(
     ),
 )
 
-# Model choice selection
-use_advanced_model = st.sidebar.checkbox("Use advanced model")
-model_choice = "gpt-4.1" if use_advanced_model else "gpt-5-nano"
+# 2. Basic Models Selection Dropdown (First option is default)
+basic_model = st.sidebar.selectbox(
+    "Select model:",
+    (
+        "gpt-4o-mini",
+        "gpt-4.1-mini",
+        "gpt-4.1",
+        "gpt-5-nano",
+    ),
+    index=0
+)
+
+# 3. Advanced Model Checkbox with Model Name in brackets
+advanced_model_name = "gpt-5-mini"
+use_advanced_model = st.sidebar.checkbox(f"Use advanced model ({advanced_model_name})")
+
+# Determine final model choice
+model_choice = advanced_model_name if use_advanced_model else basic_model
 
 # File uploader
 uploaded_file = st.file_uploader("Upload a PDF document", type=["pdf"])
