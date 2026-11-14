@@ -105,3 +105,27 @@ if analyze_clicked:
                 st.write(result)
             except Exception as e:
                 st.error(f"Something went wrong: {e}")
+
+
+
+# a. How do the image payload and audio transcription request differ?
+# The image is sent directly as a base64 data URL inside the content
+# list to the Responses API. Audio is sent first to the separate
+# Transcriptions API to get text, and only that text (not the audio
+# file itself) goes to the Responses API afterward.
+
+# b. What improved after your prompt revision? How did the app handle
+# missing information?
+# Before: the model answered "no info" in slightly different wording
+# each time. After: it replies with one exact, consistent sentence
+# ("I cannot answer this based on the provided material"), which is
+# clearer for the user and easier to test for. Key points also show
+# bolded terms now, which makes the summary easier to scan.
+
+# c. What can transcription lose from audio? What additional processing
+# would video require?
+# Transcription loses tone, emphasis, pauses, and background sound. It
+# can also mishear names: my own name was transcribed as "Nandarekar"
+# instead of "Hundalekar." Video would need frame sampling or a
+# vision model to interpret visuals, plus syncing that with the audio
+# transcript, since neither alone would capture everything happening.
