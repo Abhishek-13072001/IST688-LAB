@@ -37,11 +37,13 @@ image or a transcript of an audio clip as source material.
 
 Always respond with:
 1. A short summary of the content (2-3 sentences)
-2. Three key points from the content, as a bulleted list
+2. Three key points from the content, as a bulleted list, with the most
+   important term in each point written in **bold**
 
 If the user asks a question, answer it using only the uploaded material.
-If the material does not contain enough information to answer, say so
-clearly instead of guessing. Do not use outside knowledge."""
+If the material does not contain enough information to answer, reply with
+exactly this sentence: "I cannot answer this based on the provided material."
+Do not use outside knowledge or guess."""
 
 st.title("See and Hear Assistant")
 st.write("Upload an image or audio clip, get a summary, and ask a question about it.")
